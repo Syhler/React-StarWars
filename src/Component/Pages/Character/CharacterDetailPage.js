@@ -1,14 +1,18 @@
 import React from "react";
 import ImageCarouselComponent from "../../Common/ImageCarouselComponent";
+import FetchApi from "../../../Services/FetchApi";
 
 class CharacterDetailPage extends React.Component {
+
+
+
 
     constructor(props) {
         super(props);
 
         this.state = {
             character: {},
-            homeworld: {},
+            homeworld: [],
             films: [],
             species: [],
             vehicles: [],
@@ -17,25 +21,27 @@ class CharacterDetailPage extends React.Component {
     }
     async componentDidMount() {
 
-        const response = await fetch("https://swapi.dev/api/people/" + this.props.match.params.name)
-        const data = await response.json()
-        data.img = process.env.PUBLIC_URL + "/images/characters/" + this.props.match.params.name + ".jpg"
+        const api = new FetchApi()
 
+        const id = this.props.match.params.id
+        const character = await api.fetchAllData(id,"people", true)
+
+        console.log(character)
+
+        //fetch data from all other types
         const [homeworld, films, species, vehicles, starships] = await Promise.all(
             [
-                await this.loadHomeWorld(data.homeworld),
-                await this.loadFilms(data.films),
-                await this.loadSpecies(data.species),
-                await this.loadVehicles(data.vehicles),
-                await this.loadStarships(data.starships)
+                await api.fetchCommonData([character.homeworld], "planets"),
+                await api.fetchCommonData(character.films, "films"),
+                await api.fetchCommonData(character.species, "species"),
+                await api.fetchCommonData(character.vehicles, "vehicles"),
+                await api.fetchCommonData(character.starships, "starships")
             ]
         )
 
-        console.log(species)
-
         this.setState(
             {
-                character: data,
+                character: character,
                 homeworld: homeworld,
                 films: films,
                 species: species,
@@ -43,97 +49,9 @@ class CharacterDetailPage extends React.Component {
                 starships: starships
             }
         )
-
     }
-
-    async loadStarships(starships)
-    {
-        if (starships === undefined) return
-
-        return Promise.all(await starships.map(async starship =>
-        {
-
-            const number = starship.match(/\d+/)[0]
-            const response = await fetch("https://swapi.dev/api/starships/" + number)
-            const data = await response.json()
-
-            return {
-                name: data.name,
-                img: process.env.PUBLIC_URL + "/images/starships/" + number + ".jpg"
-            }
-
-        }))
-
-    }
-
-    async loadVehicles(vehicles)
-    {
-        if (vehicles === undefined) return
-
-        return Promise.all(await vehicles.map(async vehicle =>{
-
-            const number = vehicle.match(/\d+/)[0]
-            const response = await fetch("https://swapi.dev/api/vehicles/" + number)
-            const data = await response.json()
-
-            return {
-                name: data.name,
-                img: process.env.PUBLIC_URL + "/images/vehicles/" + number + ".jpg"
-            }
-
-        }))
-
-    }
-
-    async loadSpecies(species) {
-        if (species === undefined) return
-
-        return Promise.all(await species.map(async specie => {
-            const number = specie.match(/\d+/)[0]
-            const response = await fetch("https://swapi.dev/api/species/" + number)
-            const data = await response.json()
-
-            return {
-                name: data.name,
-                img: process.env.PUBLIC_URL + "/images/species/" + number + ".jpg"
-
-            }
-        }))
-    }
-
-    async loadFilms(films) {
-        if (films === undefined) return
-
-        return Promise.all(await films.map(async film => {
-            const number = film.match(/\d+/)[0]
-            const response = await fetch("https://swapi.dev/api/films/" + number)
-            const data = await response.json()
-
-            return {
-                name: data.title,
-                img: process.env.PUBLIC_URL + "/images/films/" + number + ".jpg"
-            }
-        }))
-    }
-
-    async loadHomeWorld(url) {
-        if (url === undefined) return
-
-        const number = url.match(/\d+/)[0]
-
-        const response = await fetch("https://swapi.dev/api/planets/" + number);
-        const data = await response.json()
-
-
-        return {
-            name: data.name,
-            img: process.env.PUBLIC_URL + "/images/planets/" + number + ".jpg"
-        }
-    }
-
 
     render() {
-        console.log(this.state)
 
         return (
             <div>
@@ -144,12 +62,7 @@ class CharacterDetailPage extends React.Component {
                                 <ImageCarouselComponent
                                     title={"Home Planet"}
                                     desktopItems={1}
-                                    items={[
-                                        {
-                                            name: this.state.homeworld.name,
-                                            img: this.state.homeworld.img
-                                        }
-                                    ]}
+                                    items={this.state.homeworld}
                                 />
                             </div>
                             <div className="col-md-6 mb-4">

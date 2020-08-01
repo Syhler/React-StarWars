@@ -4,21 +4,20 @@ import 'react-multi-carousel/lib/styles.css';
 import React from "react";
 
 
-function ImageCarouselComponent(props)
-{
+function ImageCarouselComponent(props) {
     const responsive = {
         desktop: {
-            breakpoint: { max: 3000, min: 1024 },
+            breakpoint: {max: 3000, min: 1024},
             items: props.desktopItems === undefined ? 3 : props.desktopItems,
             slidesToSlide: 1 // optional, default to 1.
         },
         tablet: {
-            breakpoint: { max: 1024, min: 464 },
-            items: 2,
-            slidesToSlide: 2 // optional, default to 1.
+            breakpoint: {max: 1024, min: 464},
+            items: props.desktopItems === undefined ? 2 : props.desktopItems,
+            slidesToSlide: 1 // optional, default to 1.
         },
         mobile: {
-            breakpoint: { max: 464, min: 0 },
+            breakpoint: {max: 464, min: 0},
             items: 1,
             slidesToSlide: 1 // optional, default to 1.
         }
@@ -26,14 +25,16 @@ function ImageCarouselComponent(props)
     const mappedItem = props.items.map((data, index) => {
 
         return <ImageCard key={index}
-            img={data.img}
-            name={data.name}
+                          img={data.img}
+                          name={data.name}
+                          type={data.type}
+                          id={data.id}
         />
 
     })
 
-    return(
-        <div className=" grey darken-4">
+    return (
+        <div className="">
             <div className="container">
                 <h1 className="white-text">{props.title}</h1>
                 <Carousel

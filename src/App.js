@@ -3,13 +3,14 @@ import './App.css';
 import CustomHeader from "./Component/CustomHeader";
 import mainContent from "./Component/MainContent";
 import characterPage from "./Component/Pages/Character/CharacterPage"
-import planetsPage from "./Component/Pages/PlanetsPage"
+import planetsPage from "./Component/Pages/Planets/PlanetsPage"
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
 import "materialize-css/dist/css/materialize.min.css"
 import CharacterDetailPage from "./Component/Pages/Character/CharacterDetailPage";
 import "bootstrap/dist/css/bootstrap-grid.min.css"
 import "bootstrap/dist/css/bootstrap.min.css"
+import PlanetDetailPage from "./Component/Pages/Planets/PlanetDetailPage";
 
 
 class App extends React.Component {
@@ -29,9 +30,14 @@ class App extends React.Component {
                         <Switch>
                             <Route path="/" exact component={mainContent}/>
                             <Route path="/character" exact component={characterPage}/>
-                            <Route path="/planets" component={planetsPage}/>
                             <Route path="/character?page=" exact component={characterPage}/>
-                            <Route path="/character/:name" component={CharacterDetailPage}/>
+                            <Route path="/character/:id" component={CharacterDetailPage}/>
+
+                            <Route path="/planets"  exact component={planetsPage}/>
+                            <Route path="/planets?page=" exact component={planetsPage}/>
+                            <Route path="/planets/:id" component={PlanetDetailPage}/>
+
+
                         </Switch>
                     </div>
                 </div>

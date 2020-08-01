@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import queryString from "query-string"
-import img from "../../images/sample-1.jpg"
+import img from "../../../images/sample-1.jpg"
 import InfiniteScroll from "react-infinite-scroll-component";
 
 class CharacterPage extends React.Component {
@@ -14,7 +14,6 @@ class CharacterPage extends React.Component {
                 characters: [],
                 page: 1,
                 reachedEnd: false,
-                length: 82
             }
 
         this.nextPage = this.nextPage.bind(this)
@@ -28,58 +27,46 @@ class CharacterPage extends React.Component {
 
         const response = await fetch("https://swapi.dev/api/people/?page=" + page)
         const data = await response.json();
+
+        const dataWithImg = data.results.map((character, index) => {
+            character.img = "/images/characters/" + (index + (index < 17 ? 1 : 2)) + ".jpg"
+            return character
+        })
+
         this.setState({
-            characters: data.results,
+            characters: dataWithImg,
             reachedEnd: data.next === null,
             page: parseFloat(page),
         })
-
-
-        console.log(parsed)
 
     }
 
     async nextPage() {
 
-        console.log(this.state.page + 1)
-
         const response = await fetch("https://swapi.dev/api/people/?page=" + (this.state.page + 1))
         const data = await response.json();
 
-
-
         if (data.detail === "Not found") return
+
+
+        const dataWithImg = data.results.map((character, index) => {
+
+            const totalIndex = index + (this.state.page * 10)
+
+            character.img = "/images/characters/" + ((totalIndex + (totalIndex < 16 ? 1 : 2) )) + ".jpg"
+            return character
+        })
 
         this.setState(prevState => {
             return (
                 {
-                    characters: prevState.characters.concat(data.results),
+                    characters: prevState.characters.concat(dataWithImg),
                     page: prevState.page + 1,
                     reachedEnd: data.next === null
                 }
             )
         })
     }
-/*
-    async backPage() {
-        const response = await fetch("https://swapi.dev/api/people/?page=" + (this.state.page - 1))
-        const data = await response.json();
-
-        if (data.detail === "Not found") return
-
-        this.setState(prevState => {
-            return (
-                {
-                    characters: data.results,
-                    page: prevState.page - 1,
-                    reachedStart: data.previous === null,
-                    reachedEnd: data.next === null
-                }
-            )
-        })
-    }
- */
-
     render() {
 
         return (
@@ -95,19 +82,17 @@ class CharacterPage extends React.Component {
                     >
                         {this.state.characters.map((data, index) => {
                             return (
-                                <div className="col s4 m4" key={data.name}>
-                                    <div className="card">
+                                <div className="col s4 m4 hoverable" key={data.name}>
+                                    <div className="card ">
                                         <div className="card-image">
-                                            <img src={img}/>
+                                            <img src={process.env.PUBLIC_URL + data.img}/>
                                             <span className="card-title">{data.name}</span>
                                         </div>
                                         <div className="card-content">
-                                            <p>I am a very simple card. I am good at containing small bits of
-                                                information.
-                                                I am convenient because I require little markup to use effectively.</p>
+                                            <p>{data.name}has been in {data.films.length} films</p>
                                         </div>
                                         <div className="card-action">
-                                            <Link to={"/character/" + (index + 1 + ((this.state.page - 1) * 10))}>
+                                            <Link to={"/character/" + (index + (index < 17 ? 1 : 2))}>
                                                 Read more
                                             </Link>
 

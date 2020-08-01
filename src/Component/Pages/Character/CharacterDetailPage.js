@@ -26,7 +26,6 @@ class CharacterDetailPage extends React.Component {
         const id = this.props.match.params.id
         const character = await api.fetchAllData(id,"people", true)
 
-        console.log(character)
 
         //fetch data from all other types
         const [homeworld, films, species, vehicles, starships] = await Promise.all(

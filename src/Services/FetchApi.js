@@ -28,26 +28,77 @@ class FetchApi {
         const data = await response.json();
         if (isWithImage) {
             data.img = process.env.PUBLIC_URL + "/images/" + type + "/" + id + ".jpg";
-        }
-        else
-        {
+        } else {
             data.img = process.env.PUBLIC_URL + "/images/not-found-image-15383864787lu.jpg"
         }
         return data;
     }
 
-    async fetchPageData(type, page, isWithImage, isNotFound)
-    {
-        const response = await fetch("https://swapi.dev/api/"+type+"/?page=" + page)
+    tryRequire = (path) => {
+        try {
+            return require(`${path}`);
+        } catch (err) {
+            return null;
+        }
+    };
+
+    async fetchPageDataStarshipFix(type, page) {
+        const response = await fetch("https://swapi.dev/api/" + type + "/?page=" + page)
+        const data = await response.json();
+
+        if (data.detail === "Not found") return null;
+
+
+        const dataWithImages = data.results.map((tempData, index) => {
+
+            const urlId = parseInt(tempData.url.match(/\d+/)[0])
+            //this is so fucking stupid
+            if (urlId === 5 ||
+                urlId === 9 ||
+                urlId === 10 ||
+                urlId === 11 ||
+                urlId === 12 ||
+                urlId === 13 ||
+                urlId === 15 ||
+                urlId === 21 ||
+                urlId === 22 ||
+                urlId === 23 ||
+                urlId === 27 ||
+                urlId === 28 ||
+                urlId === 29 ||
+                urlId === 31 ||
+                urlId === 39 ||
+                urlId === 40 ||
+                urlId === 41 ||
+                urlId === 43 ||
+                urlId === 47 ||
+                urlId === 48) {
+                tempData.img = process.env.PUBLIC_URL + "/images/" + type + "/" + urlId + ".jpg"
+            } else {
+                tempData.img = process.env.PUBLIC_URL + "/images/not-found-image-15383864787lu.jpg"
+            }
+
+
+            return tempData
+        })
+
+        return {
+            results: dataWithImages,
+            next: data.next
+        }
+    }
+
+    async fetchPageData(type, page, isWithImage, isNotFound) {
+        const response = await fetch("https://swapi.dev/api/" + type + "/?page=" + page)
         const data = await response.json();
 
         if (data.detail === "Not found") return null;
 
         if (!isWithImage) return data
 
-        if (isWithImage)
-        {
+        if (isWithImage) {
             const dataWithImages = data.results.map((tempData, index) => {
+
                 let totalIndex = index;
 
                 if (page > 1) {
@@ -59,6 +110,7 @@ class FetchApi {
                 } else {
                     tempData.img = process.env.PUBLIC_URL + "/images/" + type + "/" + (totalIndex + 1) + ".jpg"
                 }
+
 
                 return tempData
             })

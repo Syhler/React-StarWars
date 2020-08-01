@@ -11,6 +11,8 @@ import CharacterDetailPage from "./Component/Pages/Character/CharacterDetailPage
 import "bootstrap/dist/css/bootstrap-grid.min.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 import PlanetDetailPage from "./Component/Pages/Planets/PlanetDetailPage";
+import StarshipsPage from "./Component/Pages/Spaceships/StarshipsPage";
+import StarshipDetailPage from "./Component/Pages/Spaceships/StarshipDetailPage";
 
 
 class App extends React.Component {
@@ -30,13 +32,13 @@ class App extends React.Component {
                         <Switch>
                             <Route path="/" exact component={mainContent}/>
                             <Route path="/character" exact component={characterPage}/>
-                            <Route path="/character?page=" exact component={characterPage}/>
                             <Route path="/character/:id" component={CharacterDetailPage}/>
 
                             <Route path="/planets"  exact component={planetsPage}/>
-                            <Route path="/planets?page=" exact component={planetsPage}/>
                             <Route path="/planets/:id" component={PlanetDetailPage}/>
 
+                            <Route path="/starships"  exact component={StarshipsPage}/>
+                            <Route path="/starships/:id" component={StarshipDetailPage}/>
 
                         </Switch>
                     </div>

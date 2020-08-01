@@ -3,8 +3,12 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import queryString from "query-string";
 import img from "../../../images/sample-1.jpg";
 import {Link} from "react-router-dom";
+import FetchApi from "../../../Services/FetchApi";
 
 class PlanetsPage extends React.Component {
+
+    api = new FetchApi()
+
     constructor(props) {
         super(props);
         this.state =
@@ -17,51 +21,35 @@ class PlanetsPage extends React.Component {
     }
 
     async componentDidMount() {
-        const parsed = queryString.parse(this.props.location.search);
-        const page = parsed.page ?? 1
 
-        const response = await fetch("https://swapi.dev/api/planets/?page=" + page)
-        const data = await response.json();
+        const data = await this.api.fetchPageData(
+            "planets",
+            this.state.page,
+            true,
+            index => index + 1 === 20 || index + 1 > 21)
 
-        const dataWithImg = data.results.map((character, index) => {
-
-            if (index + 1 === 20 || index + 1 > 21) {
-                character.img = process.env.PUBLIC_URL + "/images/not-found-image-15383864787lu.jpg"
-            } else {
-                character.img = process.env.PUBLIC_URL + "/images/planets/" + (index + 1) + ".jpg"
-            }
-
-            return character
-        })
+        if (data === null) return
 
         this.setState({
-            planets: dataWithImg,
+            planets: data.results,
             reachedEnd: data.next === null,
-            page: parseFloat(page),
         })
     }
 
     async nextPage() {
 
-        const response = await fetch("https://swapi.dev/api/planets/?page=" + (this.state.page + 1))
-        const data = await response.json();
+        const data = await this.api.fetchPageData(
+            "planets",
+            this.state.page + 1,
+            true,
+            index => index + 1 === 20 || index + 1 > 21)
 
-        if (data.detail === "Not found") return
-
-        const dataWithImg = data.results.map((character, index) => {
-            const totalIndex = index + (this.state.page * 10)
-            if (totalIndex + 1 === 20 || totalIndex + 1 > 21) {
-                character.img = process.env.PUBLIC_URL + "/images/not-found-image-15383864787lu.jpg"
-            } else {
-                character.img = process.env.PUBLIC_URL +"/images/planets/" + (totalIndex + 1) + ".jpg"
-            }
-            return character
-        })
+        if (data === null) return
 
         this.setState(prevState => {
             return (
                 {
-                    planets: prevState.planets.concat(dataWithImg),
+                    planets: prevState.planets.concat(data.results),
                     page: prevState.page + 1,
                     reachedEnd: data.next === null
                 }

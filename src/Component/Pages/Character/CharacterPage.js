@@ -3,8 +3,11 @@ import {Link} from "react-router-dom";
 import queryString from "query-string"
 import img from "../../../images/sample-1.jpg"
 import InfiniteScroll from "react-infinite-scroll-component";
+import FetchApi from "../../../Services/FetchApi";
 
 class CharacterPage extends React.Component {
+
+    api = new FetchApi()
 
     constructor(props) {
         super(props);
@@ -22,11 +25,10 @@ class CharacterPage extends React.Component {
 
     async componentDidMount() {
 
-        const parsed = queryString.parse(this.props.location.search);
-        const page = parsed.page ?? 1
-
-        const response = await fetch("https://swapi.dev/api/people/?page=" + page)
-        const data = await response.json();
+        const data = await this.api.fetchPageData(
+            "people",
+            this.state.page,
+            false)
 
         const dataWithImg = data.results.map((character, index) => {
             character.img = process.env.PUBLIC_URL + "/images/people/" + (index + (index < 17 ? 1 : 2)) + ".jpg"
@@ -36,17 +38,17 @@ class CharacterPage extends React.Component {
         this.setState({
             characters: dataWithImg,
             reachedEnd: data.next === null,
-            page: parseFloat(page),
         })
 
     }
 
     async nextPage() {
 
-        const response = await fetch("https://swapi.dev/api/people/?page=" + (this.state.page + 1))
-        const data = await response.json();
 
-        if (data.detail === "Not found") return
+        const data = await this.api.fetchPageData(
+            "people",
+            this.state.page + 1,
+            false)
 
         const dataWithImg = data.results.map((character, index) => {
             const totalIndex = index + (this.state.page * 10)

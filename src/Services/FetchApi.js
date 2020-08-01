@@ -36,6 +36,40 @@ class FetchApi {
         return data;
     }
 
+    async fetchPageData(type, page, isWithImage, isNotFound)
+    {
+        const response = await fetch("https://swapi.dev/api/"+type+"/?page=" + page)
+        const data = await response.json();
+
+        if (data.detail === "Not found") return null;
+
+        if (!isWithImage) return data
+
+        if (isWithImage)
+        {
+            const dataWithImages = data.results.map((tempData, index) => {
+                let totalIndex = index;
+
+                if (page > 1) {
+                    totalIndex = index + (page - 1) * 10;
+                }
+
+                if (isNotFound(totalIndex)) {
+                    tempData.img = process.env.PUBLIC_URL + "/images/not-found-image-15383864787lu.jpg"
+                } else {
+                    tempData.img = process.env.PUBLIC_URL + "/images/" + type + "/" + (totalIndex + 1) + ".jpg"
+                }
+
+                return tempData
+            })
+
+            return {
+                results: dataWithImages,
+                next: data.next
+            }
+        }
+
+    }
 
 
 }

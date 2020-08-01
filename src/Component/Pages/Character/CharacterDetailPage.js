@@ -1,189 +1,247 @@
 import React from "react";
-import img from "../../../images/sample-1.jpg"
-import Carousel from "react-multi-carousel";
-import 'react-multi-carousel/lib/styles.css';
+import ImageCarouselComponent from "../../Common/ImageCarouselComponent";
 
 class CharacterDetailPage extends React.Component {
+
     constructor(props) {
         super(props);
+
         this.state = {
-            character: {}
+            character: {},
+            homeworld: {},
+            films: [],
+            species: [],
+            vehicles: [],
+            starships: []
         }
     }
-
     async componentDidMount() {
-        const response = await fetch("https://swapi.dev/api/people/" + this.props.match.params.name)
 
+        const response = await fetch("https://swapi.dev/api/people/" + this.props.match.params.name)
+        const data = await response.json()
+        data.img = process.env.PUBLIC_URL + "/images/characters/" + this.props.match.params.name + ".jpg"
+
+        const [homeworld, films, species, vehicles, starships] = await Promise.all(
+            [
+                await this.loadHomeWorld(data.homeworld),
+                await this.loadFilms(data.films),
+                await this.loadSpecies(data.species),
+                await this.loadVehicles(data.vehicles),
+                await this.loadStarships(data.starships)
+            ]
+        )
+
+        console.log(species)
+
+        this.setState(
+            {
+                character: data,
+                homeworld: homeworld,
+                films: films,
+                species: species,
+                vehicles: vehicles,
+                starships: starships
+            }
+        )
+
+    }
+
+    async loadStarships(starships)
+    {
+        if (starships === undefined) return
+
+        return Promise.all(await starships.map(async starship =>
+        {
+
+            const number = starship.match(/\d+/)[0]
+            const response = await fetch("https://swapi.dev/api/starships/" + number)
+            const data = await response.json()
+
+            return {
+                name: data.name,
+                img: process.env.PUBLIC_URL + "/images/starships/" + number + ".jpg"
+            }
+
+        }))
+
+    }
+
+    async loadVehicles(vehicles)
+    {
+        if (vehicles === undefined) return
+
+        return Promise.all(await vehicles.map(async vehicle =>{
+
+            const number = vehicle.match(/\d+/)[0]
+            const response = await fetch("https://swapi.dev/api/vehicles/" + number)
+            const data = await response.json()
+
+            return {
+                name: data.name,
+                img: process.env.PUBLIC_URL + "/images/vehicles/" + number + ".jpg"
+            }
+
+        }))
+
+    }
+
+    async loadSpecies(species) {
+        if (species === undefined) return
+
+        return Promise.all(await species.map(async specie => {
+            const number = specie.match(/\d+/)[0]
+            const response = await fetch("https://swapi.dev/api/species/" + number)
+            const data = await response.json()
+
+            return {
+                name: data.name,
+                img: process.env.PUBLIC_URL + "/images/species/" + number + ".jpg"
+
+            }
+        }))
+    }
+
+    async loadFilms(films) {
+        if (films === undefined) return
+
+        return Promise.all(await films.map(async film => {
+            const number = film.match(/\d+/)[0]
+            const response = await fetch("https://swapi.dev/api/films/" + number)
+            const data = await response.json()
+
+            return {
+                name: data.title,
+                img: process.env.PUBLIC_URL + "/images/films/" + number + ".jpg"
+            }
+        }))
+    }
+
+    async loadHomeWorld(url) {
+        if (url === undefined) return
+
+        const number = url.match(/\d+/)[0]
+
+        const response = await fetch("https://swapi.dev/api/planets/" + number);
         const data = await response.json()
 
-        console.log(data)
+
+        return {
+            name: data.name,
+            img: process.env.PUBLIC_URL + "/images/planets/" + number + ".jpg"
+        }
     }
 
 
     render() {
-        console.log(this.props.match)
-        const responsive = {
-            desktop: {
-                breakpoint: { max: 3000, min: 1024 },
-                items: 3,
-                slidesToSlide: 1 // optional, default to 1.
-            },
-            tablet: {
-                breakpoint: { max: 1024, min: 464 },
-                items: 2,
-                slidesToSlide: 2 // optional, default to 1.
-            },
-            mobile: {
-                breakpoint: { max: 464, min: 0 },
-                items: 1,
-                slidesToSlide: 1 // optional, default to 1.
-            }
-        };
+        console.log(this.state)
+
         return (
             <div>
-                <div className="row">
-
+                <div className="row mt-5">
                     <div className="col-md-8">
                         <div className="row">
-                            <div className="col-md-6">
-                                <div className="well blue">
-                                    <div className="jumbotron jumbotron-fluid">
-                                        <div className="container">
-                                            <h1 className="display-4">Fluid jumbotron</h1>
-                                            <p className="lead">This is a modified jumbotron that occupies the entire
-                                                horizontal space of its parent.</p>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div className="col-md-6 mb-4">
+                                <ImageCarouselComponent
+                                    title={"Home Planet"}
+                                    desktopItems={1}
+                                    items={[
+                                        {
+                                            name: this.state.homeworld.name,
+                                            img: this.state.homeworld.img
+                                        }
+                                    ]}
+                                />
                             </div>
-                            <div className="col-md-6">
-                                <div className="well blue">
-                                    <div className="jumbotron jumbotron-fluid">
-                                        <div className="container">
-                                            <h1 className="display-4">Fluid jumbotron</h1>
-                                            <p className="lead">This is a modified jumbotron that occupies the entire
-                                                horizontal space of its parent.</p>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div className="col-md-6 mb-4">
+                                {this.state.species.length === 0 ? null
+                                    :
+                                    <ImageCarouselComponent
+                                        title={"Species"}
+                                        desktopItems={1}
+                                        items={this.state.species}
+                                    />
+                                }
+
                             </div>
-                            <div className="col-md-12">
-                                <div className="well grey">
-                                    <div className="jumbotron jumbotron-fluid">
-                                        <div className="container">
-                                            <h1 className="display-4">Fluid jumbotron</h1>
-                                            <p className="lead">This is a modified jumbotron that occupies the entire
-                                                horizontal space of its parent.</p>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div className="col-md-12 mb-4">
+                                <ImageCarouselComponent
+                                    title={"Films"}
+                                    items={this.state.films}
+                                />
                             </div>
-                            <div className="col-md-12">
-                                <div className="well grey">
-                                    <div className="jumbotron jumbotron-fluid">
-                                        <div className="container">
-                                            <h1 className="display-4">Fluid jumbotron</h1>
-                                            <p className="lead">This is a modified jumbotron that occupies the entire
-                                                horizontal space of its parent.</p>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div className="col-md-12 mb-4">
+                                <ImageCarouselComponent
+                                    title={"Vehicles"}
+                                    items={this.state.vehicles}
+                                />
                             </div>
                             <div className="col-md-12">
-                                <div className="well  blue-grey darken-1">
-                                        <div className="container">
-                                            <h1>Starships</h1>
-                                            <Carousel
-                                                swipeable={false}
-                                                draggable={false}
-                                                showDots={true}
-                                                responsive={responsive}
-                                                ssr={true} // means to render carousel on server-side.
-                                                infinite={false}
-                                                keyBoardControl={true}
-                                                customTransition="all .5"
-                                                transitionDuration={500}
-                                                containerClass="carousel-container"
-                                                removeArrowOnDeviceType={["tablet", "mobile"]}
-                                                deviceType={this.props.deviceType}
-                                                dotListClass="custom-dot-list-style"
-                                                itemClass="pl-1"
-                                            >
+                                <ImageCarouselComponent
+                                    title={"Starships"}
+                                    items={this.state.starships}
+                                />
 
-                                                <div className="card" >
-                                                    <div className="card-image">
-                                                        <img src={process.env.PUBLIC_URL + "/images/characters/4.jpg"}/>
-                                                        <span className="card-title">Sand Crawler</span>
-                                                    </div>
-                                                </div>
-                                                <div className="card">
-                                                    <div className="card-image">
-                                                        <img src={process.env.PUBLIC_URL + "/images/characters/3.jpg"}/>
-                                                        <span className="card-title">Snowspeeder</span>
-                                                    </div>
-                                                </div>
-
-                                                <div className="card" >
-                                                    <div className="card-image">
-                                                        <img src={process.env.PUBLIC_URL + "/images/characters/2.jpg"}/>
-                                                        <span className="card-title">T-16 skyhopper</span>
-                                                    </div>
-                                                </div>
-
-                                                <div className="card" >
-                                                    <div className="card-image">
-                                                        <img src={process.env.PUBLIC_URL + "/images/characters/1.jpg"}/>
-                                                        <span className="card-title">X-34 landspeeder</span>
-                                                    </div>
-                                                </div>
-
-                                            </Carousel>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                     <div className="col-md-4">
-                        <div className="well  blue-grey darken-3">
+                        <div className="well">
                             <div className="row">
                                 <div className="col s12 m7">
-                                    <div className="card" style={{height: 1100}}>
+                                    <div className="card">
                                         <div className="card-image">
-                                            <img src={img}/>
-                                                <span className="card-title">Card Title</span>
+                                            <img src={this.state.character.img}/>
+                                            <span className="card-title">{this.state.character.name}</span>
                                         </div>
                                         <div className="card-content">
-                                            <p>I am a very simple card. I am good at containing small bits of
-                                                information.
-                                                I am convenient because I require little markup to use effectively.</p>
+                                            <div className="list-group">
+                                                <div className="list-group-item">
+                                                    <span className="left">Height:</span>
+                                                    <span className="right">{this.state.character.height}</span>
+                                                </div>
+                                            </div>
+                                            <div className="list-group mt-1">
+                                                <div className="list-group-item">
+                                                    <span className="left">Weight (in kg):</span>
+                                                    <span className="right">{this.state.character.mass}</span>
+                                                </div>
+                                            </div>
+                                            <div className="list-group mt-1">
+                                                <div className="list-group-item">
+                                                    <span className="left">Hair Color:</span>
+                                                    <span className="right">{this.state.character.hair_color}</span>
+                                                </div>
+                                            </div>
+                                            <div className="list-group mt-1">
+                                                <div className="list-group-item">
+                                                    <span className="left">Skin Color:</span>
+                                                    <span className="right">{this.state.character.skin_color}</span>
+                                                </div>
+                                            </div>
+                                            <div className="list-group mt-1">
+                                                <div className="list-group-item">
+                                                    <span className="left">Eye Color:</span>
+                                                    <span className="right">{this.state.character.eye_color}</span>
+                                                </div>
+                                            </div>
+                                            <div className="list-group mt-1">
+                                                <div className="list-group-item">
+                                                    <span className="left">Birth Year:</span>
+                                                    <span className="right">{this.state.character.birth_year}</span>
+                                                </div>
+                                            </div>
+                                            <div className="list-group mt-1">
+                                                <div className="list-group-item">
+                                                    <span className="left">Gender:</span>
+                                                    <span className="right">{this.state.character.gender}</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                </div>
-                <div className="row">
-
                 </div>
             </div>
         )

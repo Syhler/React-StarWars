@@ -19,10 +19,11 @@ class CharacterPage extends React.Component {
         this.nextPage = this.nextPage.bind(this)
     }
 
+
+
     async componentDidMount() {
 
         const parsed = queryString.parse(this.props.location.search);
-
         const page = parsed.page ?? 1
 
         const response = await fetch("https://swapi.dev/api/people/?page=" + page)
@@ -68,7 +69,6 @@ class CharacterPage extends React.Component {
         })
     }
     render() {
-
         return (
             <div>
                 <h1 className="text-primary">Character page</h1>

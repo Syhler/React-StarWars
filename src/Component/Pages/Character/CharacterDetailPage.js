@@ -1,6 +1,7 @@
 import React from "react";
 import ImageCarouselComponent from "../../Common/ImageCarouselComponent";
 import FetchApi from "../../../Services/FetchApi";
+import CharacterProfileCard from "./CharacterProfileCard";
 
 class CharacterDetailPage extends React.Component {
 
@@ -100,56 +101,7 @@ class CharacterDetailPage extends React.Component {
                         <div className="well">
                             <div className="row">
                                 <div className="col s12 m7">
-                                    <div className="card">
-                                        <div className="card-image">
-                                            <img src={this.state.character.img}/>
-                                            <span className="card-title">{this.state.character.name}</span>
-                                        </div>
-                                        <div className="card-content">
-                                            <div className="list-group">
-                                                <div className="list-group-item">
-                                                    <span className="left">Height:</span>
-                                                    <span className="right">{this.state.character.height}</span>
-                                                </div>
-                                            </div>
-                                            <div className="list-group mt-1">
-                                                <div className="list-group-item">
-                                                    <span className="left">Weight (in kg):</span>
-                                                    <span className="right">{this.state.character.mass}</span>
-                                                </div>
-                                            </div>
-                                            <div className="list-group mt-1">
-                                                <div className="list-group-item">
-                                                    <span className="left">Hair Color:</span>
-                                                    <span className="right">{this.state.character.hair_color}</span>
-                                                </div>
-                                            </div>
-                                            <div className="list-group mt-1">
-                                                <div className="list-group-item">
-                                                    <span className="left">Skin Color:</span>
-                                                    <span className="right">{this.state.character.skin_color}</span>
-                                                </div>
-                                            </div>
-                                            <div className="list-group mt-1">
-                                                <div className="list-group-item">
-                                                    <span className="left">Eye Color:</span>
-                                                    <span className="right">{this.state.character.eye_color}</span>
-                                                </div>
-                                            </div>
-                                            <div className="list-group mt-1">
-                                                <div className="list-group-item">
-                                                    <span className="left">Birth Year:</span>
-                                                    <span className="right">{this.state.character.birth_year}</span>
-                                                </div>
-                                            </div>
-                                            <div className="list-group mt-1">
-                                                <div className="list-group-item">
-                                                    <span className="left">Gender:</span>
-                                                    <span className="right">{this.state.character.gender}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <CharacterProfileCard character={this.state.character}/>
                                 </div>
                             </div>
                         </div>

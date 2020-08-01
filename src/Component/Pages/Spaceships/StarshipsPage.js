@@ -1,9 +1,7 @@
 import React from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import FetchApi from "../../../Services/FetchApi";
-import img from "../../../images/sample-1.jpg";
-import {Link} from "react-router-dom";
-import StarshipCard from "./StarshipCard";
+import PageCard from "../../Common/PageCard";
 
 
 class StarshipsPage extends React.Component
@@ -61,7 +59,7 @@ class StarshipsPage extends React.Component
             const id = data.url.match(/\d+/)[0]
 
             return (
-               <StarshipCard key={id} data={data}/>
+               <PageCard type="starships" key={id} data={data} style={{height: 237}}/>
             )
         })
 

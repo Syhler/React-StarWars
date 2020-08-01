@@ -4,6 +4,7 @@ import queryString from "query-string";
 import img from "../../../images/sample-1.jpg";
 import {Link} from "react-router-dom";
 import FetchApi from "../../../Services/FetchApi";
+import PageCard from "../../Common/PageCard";
 
 class PlanetsPage extends React.Component {
 
@@ -60,24 +61,11 @@ class PlanetsPage extends React.Component {
     render() {
 
         const cards = this.state.planets.map((data, index) => {
+            const id = data.url.match(/\d+/)[0]
+
+
             return (
-                <div className="col s4 m4 hoverable" key={data.name}>
-                    <div className="card ">
-                        <div className="card-image">
-                            <img src={data.img}/>
-                            <span className="card-title">{data.name}</span>
-                        </div>
-                        <div className="card-content">
-                            <p>{data.name} has been in {data.films.length} films</p>
-                            <p>{data.name} has a population of {data.population}</p>
-                        </div>
-                        <div className="card-action">
-                            <Link to={"/planets/" + (index + 1)}>
-                                Read more
-                            </Link>
-                        </div>
-                    </div>
-                </div>
+                <PageCard data={data} key={id} type="planets"/>
             )
         })
 

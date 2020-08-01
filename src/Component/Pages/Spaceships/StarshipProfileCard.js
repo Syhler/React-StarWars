@@ -2,6 +2,8 @@ import React from "react";
 import FactBox from "../../Common/FactBox";
 
 function StarshipProfileCard(props) {
+
+
     return (
         <div className="card">
             <div className="card-image">

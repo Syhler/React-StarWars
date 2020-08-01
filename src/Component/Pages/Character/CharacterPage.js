@@ -4,6 +4,7 @@ import queryString from "query-string"
 import img from "../../../images/sample-1.jpg"
 import InfiniteScroll from "react-infinite-scroll-component";
 import FetchApi from "../../../Services/FetchApi";
+import PageCard from "../../Common/PageCard";
 
 class CharacterPage extends React.Component {
 
@@ -70,24 +71,11 @@ class CharacterPage extends React.Component {
     render() {
 
         const cards = this.state.characters.map((data, index) => {
-            return (
-                <div className="col s4 m4 hoverable" key={data.name}>
-                    <div className="card ">
-                        <div className="card-image">
-                            <img src={data.img}/>
-                            <span className="card-title">{data.name}</span>
-                        </div>
-                        <div className="card-content">
-                            <p>{data.name}has been in {data.films.length} films</p>
-                        </div>
-                        <div className="card-action">
-                            <Link to={"/character/" + (index + (index < 17 ? 1 : 2))}>
-                                Read more
-                            </Link>
 
-                        </div>
-                    </div>
-                </div>
+            const id = data.url.match(/\d+/)[0]
+
+            return (
+              <PageCard data={data} key={id} type={"people"}/>
             )
         })
 

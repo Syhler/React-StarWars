@@ -7,7 +7,7 @@ function VehicleProfileCard(props)
     return (
         <div className="card">
             <div className="card-image">
-                <img src={props.vehicle.img}/>
+                <img src={props.vehicle.img} alt={"HERE HALLO"}/>
                 <span className="card-title">{props.vehicle.name}</span>
             </div>
             <div className="card-content">

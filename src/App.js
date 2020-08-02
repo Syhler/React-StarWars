@@ -1,9 +1,7 @@
 import React from 'react';
 import './App.css';
 import CustomHeader from "./Component/CustomHeader";
-import mainContent from "./Component/MainContent";
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
-
 import "materialize-css/dist/css/materialize.min.css"
 import CharacterDetailPage from "./Component/Pages/Character/CharacterDetailPage";
 import "bootstrap/dist/css/bootstrap-grid.min.css"
@@ -40,20 +38,23 @@ class App extends React.Component {
                             {/*PLANETS*/}
                             <Route path="/planets"  exact component={() =>
                             {
-                                return <DefaultPage header={"Planets"} type={"planets"} route={"planets"}/>
+                                return <DefaultPage header={"Planets"} type={"planets"} route={"planets"}
+                                                    pageCardStyle={{height: "355.5px"}}/>
                             }}/>
                             <Route path="/planets/:id" component={PlanetDetailPage}/>
 
                             {/*STARSHIPS*/}
                             <Route path="/starships"  exact component={() =>
                             {
-                                return <DefaultPage header={"Starships"} type={"starships"} route={"starships"}/>
+                                return <DefaultPage header={"Starships"} type={"starships"} route={"starships"}
+                                                    pageCardStyle={{height: "237px"}}/>
                             }}/>
                             <Route path="/starships/:id" component={StarshipDetailPage}/>
 
                             {/*VEHICLES*/}
                             <Route path="/vehicles" exact component={() => {
-                                return <DefaultPage header={"Vehicles"} type={"vehicles"} route={"vehicles"}/>
+                                return <DefaultPage header={"Vehicles"} type={"vehicles"} route={"vehicles"}
+                                                    pageCardStyle={{height: "237px"}}/>
                             }}/>
                             <Route path="/vehicles/:id" component={VehicleDetailPage}/>
 

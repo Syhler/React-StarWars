@@ -95,7 +95,7 @@ class CharacterDetailPage extends React.Component {
 
                             </div>
                             <div className="col-md-12">
-                                {this.state.starships === 0 ? null :
+                                {this.state.starships.length === 0 ? null :
                                     <ImageCarouselComponent
                                         title={"Starships"}
                                         items={this.state.starships}

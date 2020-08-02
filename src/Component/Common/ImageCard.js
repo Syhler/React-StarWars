@@ -13,7 +13,7 @@ function ImageCard(props) {
         <Link to={link}>
             <div className="card hoverable">
                 <div className="card-image">
-                    <img src={props.img}/>
+                    <img src={props.img} alt={"HERE HALLO"}/>
                 </div>
                 <div className="card-body blue-grey darken-3">
                     <h6 className="white-text">{props.name}</h6>

@@ -1,5 +1,4 @@
 import React from "react";
-import * as PropTypes from "prop-types";
 
 
 function FactBox(props) {
@@ -13,9 +12,5 @@ function FactBox(props) {
     )
 }
 
-FactBox.propTypes = {
-    headline: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-};
 
 export default FactBox

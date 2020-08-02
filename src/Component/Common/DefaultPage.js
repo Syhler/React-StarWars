@@ -55,7 +55,7 @@ class DefaultPage extends React.Component
             const id = data.url.match(/\d+/)[0]
 
             return (
-                <PageCard type={this.props.route} key={id} data={data}/>
+                <PageCard type={this.props.route} key={id} data={data} style={this.props.pageCardStyle}/>
             )
 
         })

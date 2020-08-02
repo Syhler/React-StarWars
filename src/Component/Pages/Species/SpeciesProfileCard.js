@@ -6,7 +6,7 @@ function SpeciesProfileCard(props)
     return(
         <div className="card">
             <div className="card-image">
-                <img src={props.specie.img}/>
+                <img src={props.specie.img} alt={"nah"}/>
                 <span className="card-title">{props.specie.name}</span>
             </div>
             <div className="card-content">

@@ -6,7 +6,7 @@ function FilmProfileCard(props)
     return (
         <div className="card">
             <div className="card-image">
-                <img src={props.film.img}/>
+                <img src={props.film.img} alt={"HERE HALLO"}/>
                 <span className="card-title">{props.film.title}</span>
             </div>
             <div className="card-content">

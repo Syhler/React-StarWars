@@ -6,7 +6,7 @@ function CharacterProfileCard(props)
     return (
         <div className="card">
             <div className="card-image">
-                <img src={props.character.img}/>
+                <img src={props.character.img} alt={"HERE HALLO"}/>
                 <span className="card-title">{props.character.name}</span>
             </div>
             <div className="card-content">

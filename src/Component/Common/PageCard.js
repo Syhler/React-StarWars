@@ -4,13 +4,12 @@ import {Link} from "react-router-dom";
 
 function PageCard(props) {
     const id = props.data.url.match(/\d+/)[0]
-
     return (
         <div className="col s4 m4 hoverable" key={props.data.name}>
             <div className="card ">
                 <div className="card-image">
 
-                    <img src={props.data.img} style={props.style}/>
+                    <img src={props.data.img} style={props.style} alt={"HERE HALLO"}/>
                     {props.type === "films" ?
                         <span className="card-title">{props.data.title}</span>
                         :

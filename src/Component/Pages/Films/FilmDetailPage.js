@@ -1,7 +1,6 @@
 import React from "react";
 import FetchApi from "../../../Services/FetchApi";
 import ImageCarouselComponent from "../../Common/ImageCarouselComponent";
-import StarshipProfileCard from "../Spaceships/StarshipProfileCard";
 import FilmProfileCard from "./FilmProfileCard";
 
 class FilmDetailPage extends React.Component

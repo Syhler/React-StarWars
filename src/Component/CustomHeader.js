@@ -4,10 +4,6 @@ import img from "../images/star-wars-seeklogo.com.svg"
 import {Link} from "react-router-dom";
 
 class CustomHeader extends React.Component {
-    constructor(props) {
-        super(props);
-
-    }
 
     render() {
         return (
@@ -16,7 +12,7 @@ class CustomHeader extends React.Component {
                     <div className="nav-content">
                         <ul className="tabs tabs-transparent">
                             <li>
-                                <img src={img} className="logo"/>
+                                <img src={img} className="logo" alt={"some text here"}/>
                             </li>
                             <li className="tab">
                                 <Link to="/character">

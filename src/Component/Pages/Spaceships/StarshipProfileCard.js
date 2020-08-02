@@ -7,7 +7,7 @@ function StarshipProfileCard(props) {
     return (
         <div className="card">
             <div className="card-image">
-                <img src={props.starship.img}/>
+                <img src={props.starship.img} alt={"HERE HALLO"}/>
                 <span className="card-title">{props.starship.name}</span>
             </div>
             <div className="card-content">

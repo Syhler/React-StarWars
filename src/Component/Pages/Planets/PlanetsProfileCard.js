@@ -7,7 +7,7 @@ function PlanetsProfileCard(props)
     return (
         <div className="card">
             <div className="card-image">
-                <img src={props.planet.img}/>
+                <img src={props.planet.img} alt={"should be here"}/>
                 <span className="card-title">{props.planet.name}</span>
             </div>
 

@@ -1,7 +1,6 @@
 import React from "react";
 import FetchApi from "../../../Services/FetchApi";
 import ImageCarouselComponent from "../../Common/ImageCarouselComponent";
-import CharacterProfileCard from "../Character/CharacterProfileCard";
 import SpeciesProfileCard from "./SpeciesProfileCard";
 
 class SpeciesDetailPage extends React.Component

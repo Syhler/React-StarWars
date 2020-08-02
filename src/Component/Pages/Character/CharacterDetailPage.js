@@ -77,23 +77,30 @@ class CharacterDetailPage extends React.Component {
 
                             </div>
                             <div className="col-md-12 mb-4">
-                                <ImageCarouselComponent
-                                    title={"Films"}
-                                    items={this.state.films}
-                                />
+                                {this.state.films.length === 0 ? null :
+                                    <ImageCarouselComponent
+                                        title={"Films"}
+                                        items={this.state.films}
+                                    />
+                                }
+
                             </div>
                             <div className="col-md-12 mb-4">
-                                <ImageCarouselComponent
-                                    title={"Vehicles"}
-                                    items={this.state.vehicles}
-                                />
+                                {this.state.vehicles.length === 0 ? null :
+                                    <ImageCarouselComponent
+                                        title={"Vehicles"}
+                                        items={this.state.vehicles}
+                                    />
+                                }
+
                             </div>
                             <div className="col-md-12">
-                                <ImageCarouselComponent
-                                    title={"Starships"}
-                                    items={this.state.starships}
-                                />
-
+                                {this.state.starships === 0 ? null :
+                                    <ImageCarouselComponent
+                                        title={"Starships"}
+                                        items={this.state.starships}
+                                    />
+                                }
                             </div>
                         </div>
                     </div>

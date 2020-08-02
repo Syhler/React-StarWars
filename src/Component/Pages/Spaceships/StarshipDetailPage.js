@@ -1,7 +1,6 @@
 import React from "react";
 import FetchApi from "../../../Services/FetchApi";
 import ImageCarouselComponent from "../../Common/ImageCarouselComponent";
-import FactBox from "../../Common/FactBox";
 import StarshipProfileCard from "./StarshipProfileCard";
 
 class StarshipDetailPage extends React.Component {
@@ -44,19 +43,23 @@ class StarshipDetailPage extends React.Component {
                 <div className="col-md-8">
                     <div className="row">
                         <div className="col-md-12 mb-4">
-                            <ImageCarouselComponent
-                                title={"Pilots"}
-                                items={this.state.pilots}
-                            />
+                            {this.state.pilots.length === 0 ? null :
+                                <ImageCarouselComponent
+                                    title={"Pilots"}
+                                    items={this.state.pilots}
+                                />
+
+                            }
                         </div>
 
                         <div className="col-md-12 mb-4">
-                            <ImageCarouselComponent
-                                title={"Films"}
-                                items={this.state.films}
-                            />
+                            {this.state.films.length === 0 ? null :
+                                <ImageCarouselComponent
+                                    title={"Films"}
+                                    items={this.state.films}
+                                />
+                            }
                         </div>
-
                     </div>
                 </div>
                 <div className="col-md-4">

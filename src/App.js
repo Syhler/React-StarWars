@@ -2,8 +2,6 @@ import React from 'react';
 import './App.css';
 import CustomHeader from "./Component/CustomHeader";
 import mainContent from "./Component/MainContent";
-import characterPage from "./Component/Pages/DONTUSE/CharacterPage"
-import planetsPage from "./Component/Pages/DONTUSE/PlanetsPage"
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
 import "materialize-css/dist/css/materialize.min.css"
@@ -11,18 +9,13 @@ import CharacterDetailPage from "./Component/Pages/Character/CharacterDetailPage
 import "bootstrap/dist/css/bootstrap-grid.min.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 import PlanetDetailPage from "./Component/Pages/Planets/PlanetDetailPage";
-import StarshipsPage from "./Component/Pages/DONTUSE/StarshipsPage";
 import StarshipDetailPage from "./Component/Pages/Spaceships/StarshipDetailPage";
-import VehiclesPage from "./Component/Pages/DONTUSE/VehiclesPage";
 import DefaultPage from "./Component/Common/DefaultPage";
+import VehicleDetailPage from "./Component/Pages/Vehicles/VehicleDetailPage";
+import FilmDetailPage from "./Component/Pages/Films/FilmDetailPage";
 
 
 class App extends React.Component {
-
-    constructor() {
-        super();
-
-    }
 
     render() {
 
@@ -59,11 +52,15 @@ class App extends React.Component {
                             <Route path="/vehicles" exact component={() => {
                                 return <DefaultPage header={"Vehicles"} type={"vehicles"} route={"vehicles"}/>
                             }}/>
+                            <Route path="/vehicles/:id" component={VehicleDetailPage}/>
+
 
                             {/*FILMS*/}
                             <Route path="/films" exact component={() =>{
                                 return <DefaultPage header={"Films"} type={"films"} route={"films"}/>
                             }}/>
+                            <Route path="/films/:id" component={FilmDetailPage}/>
+
 
                             {/*SPECIES*/}
                             <Route path="/species" exact component={() =>{

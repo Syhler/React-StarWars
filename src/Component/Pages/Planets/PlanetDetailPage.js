@@ -49,16 +49,21 @@ class PlanetDetailPage extends React.Component {
                     <div className="col-md-8">
                         <div className="row">
                             <div className="col-md-12 mb-4">
-                                <ImageCarouselComponent
-                                    title={"Films"}
-                                    items={this.state.films}
-                                />
+                                {this.state.films.length === 0 ? null :
+                                    <ImageCarouselComponent
+                                        title={"Films"}
+                                        items={this.state.films}
+                                    />
+                                }
+
                             </div>
                             <div className="col-md-12 mb-4">
-                                <ImageCarouselComponent
-                                    title={"Residents"}
-                                    items={this.state.residents}
-                                />
+                                {this.state.residents === 0 ? null :
+                                    <ImageCarouselComponent
+                                        title={"Residents"}
+                                        items={this.state.residents}
+                                    />
+                                }
                             </div>
                         </div>
                     </div>

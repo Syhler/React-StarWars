@@ -60,6 +60,16 @@ class App extends React.Component {
                                 return <DefaultPage header={"Vehicles"} type={"vehicles"} route={"vehicles"}/>
                             }}/>
 
+                            {/*FILMS*/}
+                            <Route path="/films" exact component={() =>{
+                                return <DefaultPage header={"Films"} type={"films"} route={"films"}/>
+                            }}/>
+
+                            {/*SPECIES*/}
+                            <Route path="/species" exact component={() =>{
+                                return <DefaultPage header={"Species"} type={"species"} route={"species"}/>
+                            }}/>
+
                         </Switch>
                     </div>
                 </div>

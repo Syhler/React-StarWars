@@ -38,6 +38,16 @@ class CustomHeader extends React.Component {
                                     Vehicles
                                 </Link>
                             </li>
+                            <li className="tab">
+                                <Link to="/films">
+                                    Films
+                                </Link>
+                            </li>
+                            <li className="tab">
+                                <Link to="/species">
+                                    Species
+                                </Link>
+                            </li>
                         </ul>
                     </div>
                 </nav>

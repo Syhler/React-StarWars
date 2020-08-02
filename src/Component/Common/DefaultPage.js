@@ -23,7 +23,7 @@ class DefaultPage extends React.Component
 
     async componentDidMount()
     {
-        const data = await this.api.fetchPageData(this.props.type, this.state.page, true, index => true)
+        const data = await this.api.fetchPageData(this.props.type, this.state.page)
 
         this.setState(
             {
@@ -35,8 +35,7 @@ class DefaultPage extends React.Component
 
     async nextLoading()
     {
-        const data = await this.api.fetchPageData(this.props.type,
-            this.state.page + 1, true, index => true)
+        const data = await this.api.fetchPageData(this.props.type, this.state.page + 1)
 
         this.setState(prevState => {
             return (

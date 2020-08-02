@@ -34,7 +34,9 @@ class CustomHeader extends React.Component {
                                 </Link>
                             </li>
                             <li className="tab">
-                                <a>Vehicles</a>
+                                <Link to="/vehicles">
+                                    Vehicles
+                                </Link>
                             </li>
                         </ul>
                     </div>

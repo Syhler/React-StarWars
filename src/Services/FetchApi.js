@@ -88,6 +88,52 @@ class FetchApi {
         }
     }
 
+    async fetchPageDataVehicleFix(type, page) {
+        const response = await fetch("https://swapi.dev/api/" + type + "/?page=" + page)
+        const data = await response.json();
+
+        if (data.detail === "Not found") return null;
+
+
+        const dataWithImages = data.results.map((tempData, index) => {
+
+            const urlId = parseInt(tempData.url.match(/\d+/)[0])
+            //this is so fucking stupid
+            if (urlId === 4 ||
+                urlId === 6 ||
+                urlId === 7 ||
+                urlId === 8 ||
+                urlId === 14 ||
+                urlId === 16 ||
+                urlId === 18 ||
+                urlId === 19 ||
+                urlId === 20 ||
+                urlId === 24 ||
+                urlId === 25 ||
+                urlId === 26 ||
+                urlId === 30 ||
+                urlId === 33 ||
+                urlId === 34 ||
+                urlId === 35 ||
+                urlId === 36 ||
+                urlId === 37 ||
+                urlId === 38 ||
+                urlId === 42) {
+                tempData.img = process.env.PUBLIC_URL + "/images/" + type + "/" + urlId + ".jpg"
+            } else {
+                tempData.img = process.env.PUBLIC_URL + "/images/not-found-image-15383864787lu.jpg"
+            }
+
+
+            return tempData
+        })
+
+        return {
+            results: dataWithImages,
+            next: data.next
+        }
+    }
+
     async fetchPageData(type, page, isWithImage, isNotFound) {
         const response = await fetch("https://swapi.dev/api/" + type + "/?page=" + page)
         const data = await response.json();

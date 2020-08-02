@@ -15,7 +15,7 @@ function PageCard(props)
                     <span className="card-title">{props.data.name}</span>
                 </div>
                 <div className="card-content">
-                    <p>{props.data.name} </p>
+                    <p>{props.data.name} ({id})</p>
                     <p>has been in {props.data.films.length} films</p>
                 </div>
                 <div className="card-action">

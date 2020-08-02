@@ -75,7 +75,7 @@ class CharacterPage extends React.Component {
             const id = data.url.match(/\d+/)[0]
 
             return (
-              <PageCard data={data} key={id} type={"people"}/>
+              <PageCard data={data} key={id} type={"character"}/>
             )
         })
 

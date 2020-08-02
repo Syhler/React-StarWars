@@ -2,6 +2,7 @@ import React from "react";
 import FetchApi from "../../../Services/FetchApi";
 import ImageCarouselComponent from "../../Common/ImageCarouselComponent";
 import PlanetsProfileCard from "./PlanetsProfileCard";
+import LoadingAnimation from "../../Common/LoadingAnimation";
 
 class PlanetDetailPage extends React.Component {
     constructor(props) {
@@ -11,6 +12,7 @@ class PlanetDetailPage extends React.Component {
             planet: {},
             residents: [],
             films: [],
+            isLoading: true
 
         }
     }
@@ -36,7 +38,8 @@ class PlanetDetailPage extends React.Component {
             {
                 planet: planet,
                 residents: residents,
-                films: films
+                films: films,
+                isLoading: false
             }
         )
     }
@@ -45,38 +48,42 @@ class PlanetDetailPage extends React.Component {
     render() {
         return (
             <div>
-                <div className="row mt-5">
-                    <div className="col-md-8">
-                        <div className="row">
-                            <div className="col-md-12 mb-4">
-                                {this.state.films.length === 0 ? null :
-                                    <ImageCarouselComponent
-                                        title={"Films"}
-                                        items={this.state.films}
-                                    />
-                                }
+                {this.state.isLoading ?
+                    <LoadingAnimation/>
+                    :
+                    <div className="row mt-5">
+                        <div className="col-md-8">
+                            <div className="row">
+                                <div className="col-md-12 mb-4">
+                                    {this.state.films.length === 0 ? null :
+                                        <ImageCarouselComponent
+                                            title={"Films"}
+                                            items={this.state.films}
+                                        />
+                                    }
 
-                            </div>
-                            <div className="col-md-12 mb-4">
-                                {this.state.residents === 0 ? null :
-                                    <ImageCarouselComponent
-                                        title={"Residents"}
-                                        items={this.state.residents}
-                                    />
-                                }
+                                </div>
+                                <div className="col-md-12 mb-4">
+                                    {this.state.residents === 0 ? null :
+                                        <ImageCarouselComponent
+                                            title={"Residents"}
+                                            items={this.state.residents}
+                                        />
+                                    }
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="col-md-4">
-                        <div className="well">
-                            <div className="row">
-                                <div className="col s12 m7">
-                                    <PlanetsProfileCard planet={this.state.planet}/>
+                        <div className="col-md-4">
+                            <div className="well">
+                                <div className="row">
+                                    <div className="col s12 m7">
+                                        <PlanetsProfileCard planet={this.state.planet}/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
         )
     }

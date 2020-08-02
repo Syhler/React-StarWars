@@ -26,7 +26,7 @@ class CustomHeader extends React.Component {
                             </li>
                             <li className="tab">
                                 <Link to="/starships">
-                                    SpaceShips
+                                    StarShips
                                 </Link>
                             </li>
                             <li className="tab">
@@ -49,6 +49,8 @@ class CustomHeader extends React.Component {
                 </nav>
             </div>
         )
+
+
     }
 
 }

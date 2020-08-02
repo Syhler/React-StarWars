@@ -2,6 +2,7 @@ import React from "react";
 import FetchApi from "../../../Services/FetchApi";
 import ImageCarouselComponent from "../../Common/ImageCarouselComponent";
 import StarshipProfileCard from "./StarshipProfileCard";
+import LoadingAnimation from "../../Common/LoadingAnimation";
 
 class StarshipDetailPage extends React.Component {
     constructor(props) {
@@ -11,7 +12,8 @@ class StarshipDetailPage extends React.Component {
             {
                 starship: {},
                 pilots: [],
-                films: []
+                films: [],
+                isLoading: true
             }
     }
 
@@ -31,7 +33,8 @@ class StarshipDetailPage extends React.Component {
             {
                 starship: starship,
                 pilots: pilots,
-                films: films
+                films: films,
+                isLoading: false
             }
         )
     }
@@ -39,39 +42,46 @@ class StarshipDetailPage extends React.Component {
 
     render() {
         return (
-            <div className="row mt-5">
-                <div className="col-md-8">
-                    <div className="row">
-                        <div className="col-md-12 mb-4">
-                            {this.state.pilots.length === 0 ? null :
-                                <ImageCarouselComponent
-                                    title={"Pilots"}
-                                    items={this.state.pilots}
-                                />
+            <div>
+                {this.state.isLoading ?
+                    <LoadingAnimation/>
+                    :
+                    <div className="row mt-5">
+                        <div className="col-md-8">
+                            <div className="row">
+                                <div className="col-md-12 mb-4">
+                                    {this.state.pilots.length === 0 ? null :
+                                        <ImageCarouselComponent
+                                            title={"Pilots"}
+                                            items={this.state.pilots}
+                                        />
 
-                            }
-                        </div>
+                                    }
+                                </div>
 
-                        <div className="col-md-12 mb-4">
-                            {this.state.films.length === 0 ? null :
-                                <ImageCarouselComponent
-                                    title={"Films"}
-                                    items={this.state.films}
-                                />
-                            }
+                                <div className="col-md-12 mb-4">
+                                    {this.state.films.length === 0 ? null :
+                                        <ImageCarouselComponent
+                                            title={"Films"}
+                                            items={this.state.films}
+                                        />
+                                    }
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div className="col-md-4">
-                    <div className="well">
-                        <div className="row">
-                            <div className="col s12 m7">
-                                <StarshipProfileCard starship={this.state.starship}/>
+                        <div className="col-md-4">
+                            <div className="well">
+                                <div className="row">
+                                    <div className="col s12 m7">
+                                        <StarshipProfileCard starship={this.state.starship}/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
+
         );
     }
 

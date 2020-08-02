@@ -2,9 +2,9 @@ import React from "react";
 import FetchApi from "../../../Services/FetchApi";
 import ImageCarouselComponent from "../../Common/ImageCarouselComponent";
 import SpeciesProfileCard from "./SpeciesProfileCard";
+import LoadingAnimation from "../../Common/LoadingAnimation";
 
-class SpeciesDetailPage extends React.Component
-{
+class SpeciesDetailPage extends React.Component {
     constructor(props) {
         super(props);
         this.state =
@@ -12,18 +12,18 @@ class SpeciesDetailPage extends React.Component
                 specie: {},
                 homeworld: [],
                 people: [],
-                films: []
+                films: [],
+                isLoading: true
 
             }
 
     }
 
-    async componentDidMount()
-    {
+    async componentDidMount() {
         const api = new FetchApi()
 
         const id = this.props.match.params.id
-        const specie = await api.fetchAllData(id,"species",true)
+        const specie = await api.fetchAllData(id, "species", true)
 
         const [people, films, homeworld] = await Promise.all([
             await api.fetchCommonData(specie.people, "people"),
@@ -35,7 +35,8 @@ class SpeciesDetailPage extends React.Component
             specie: specie,
             people: people,
             films: films,
-            homeworld: homeworld
+            homeworld: homeworld,
+            isLoading: false
         })
     }
 
@@ -43,51 +44,56 @@ class SpeciesDetailPage extends React.Component
 
         return (
             <div>
-                <div className="row mt-5">
-                    <div className="col-md-8">
-                        <div className="row">
-                            <div className="col-md-6 mb-4">
-                                <ImageCarouselComponent
-                                    title={"Home Planet"}
-                                    desktopItems={1}
-                                    items={this.state.homeworld}
-                                />
-                            </div>
-
-                            <div className="col-md-12 mb-4">
-                                {this.state.films.length === 0 ? null :
+                {this.state.isLoading ?
+                    <LoadingAnimation/>
+                    :
+                    <div className="row mt-5">
+                        <div className="col-md-8">
+                            <div className="row">
+                                <div className="col-md-6 mb-4">
                                     <ImageCarouselComponent
-                                        title={"Films"}
-                                        items={this.state.films}
+                                        title={"Home Planet"}
+                                        desktopItems={1}
+                                        items={this.state.homeworld}
                                     />
-                                }
+                                </div>
 
-                            </div>
-                            <div className="col-md-12 mb-4">
-                                {this.state.people.length === 0 ? null :
-                                    <ImageCarouselComponent
-                                        title={"Characters"}
-                                        items={this.state.people}
-                                    />
-                                }
+                                <div className="col-md-12 mb-4">
+                                    {this.state.films.length === 0 ? null :
+                                        <ImageCarouselComponent
+                                            title={"Films"}
+                                            items={this.state.films}
+                                        />
+                                    }
 
+                                </div>
+                                <div className="col-md-12 mb-4">
+                                    {this.state.people.length === 0 ? null :
+                                        <ImageCarouselComponent
+                                            title={"Characters"}
+                                            items={this.state.people}
+                                        />
+                                    }
+
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="col-md-4">
-                        <div className="well">
-                            <div className="row">
-                                <div className="col s12 m7">
-                                    <SpeciesProfileCard specie={this.state.specie}/>
+                        <div className="col-md-4">
+                            <div className="well">
+                                <div className="row">
+                                    <div className="col s12 m7">
+                                        <SpeciesProfileCard specie={this.state.specie}/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
         )
 
     }
 
 }
+
 export default SpeciesDetailPage

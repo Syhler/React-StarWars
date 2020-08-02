@@ -2,10 +2,10 @@ import React from "react";
 import ImageCarouselComponent from "../../Common/ImageCarouselComponent";
 import FetchApi from "../../../Services/FetchApi";
 import CharacterProfileCard from "./CharacterProfileCard";
+import Loader from "react-loader-spinner";
+import LoadingAnimation from "../../Common/LoadingAnimation";
 
 class CharacterDetailPage extends React.Component {
-
-
 
 
     constructor(props) {
@@ -17,15 +17,17 @@ class CharacterDetailPage extends React.Component {
             films: [],
             species: [],
             vehicles: [],
-            starships: []
+            starships: [],
+            isLoading: true
         }
     }
+
     async componentDidMount() {
 
         const api = new FetchApi()
 
         const id = this.props.match.params.id
-        const character = await api.fetchAllData(id,"people", true)
+        const character = await api.fetchAllData(id, "people", true)
 
 
         //fetch data from all other types
@@ -46,7 +48,8 @@ class CharacterDetailPage extends React.Component {
                 films: films,
                 species: species,
                 vehicles: vehicles,
-                starships: starships
+                starships: starships,
+                isLoading: false
             }
         )
     }
@@ -55,66 +58,73 @@ class CharacterDetailPage extends React.Component {
 
         return (
             <div>
-                <div className="row mt-5">
-                    <div className="col-md-8">
-                        <div className="row">
-                            <div className="col-md-6 mb-4">
-                                <ImageCarouselComponent
-                                    title={"Home Planet"}
-                                    desktopItems={1}
-                                    items={this.state.homeworld}
-                                />
-                            </div>
-                            <div className="col-md-6 mb-4">
-                                {this.state.species.length === 0 ? null
-                                    :
+                {this.state.isLoading ?
+                    <LoadingAnimation/>
+                    :
+
+                    <div className="row mt-5">
+                        <div className="col-md-8">
+                            <div className="row">
+                                <div className="col-md-6 mb-4">
                                     <ImageCarouselComponent
-                                        title={"Species"}
+                                        title={"Home Planet"}
                                         desktopItems={1}
-                                        items={this.state.species}
+                                        items={this.state.homeworld}
                                     />
-                                }
+                                </div>
+                                <div className="col-md-6 mb-4">
+                                    {this.state.species.length === 0 ? null
+                                        :
+                                        <ImageCarouselComponent
+                                            title={"Species"}
+                                            desktopItems={1}
+                                            items={this.state.species}
+                                        />
+                                    }
 
-                            </div>
-                            <div className="col-md-12 mb-4">
-                                {this.state.films.length === 0 ? null :
-                                    <ImageCarouselComponent
-                                        title={"Films"}
-                                        items={this.state.films}
-                                    />
-                                }
+                                </div>
+                                <div className="col-md-12 mb-4">
+                                    {this.state.films.length === 0 ? null :
+                                        <ImageCarouselComponent
+                                            title={"Films"}
+                                            items={this.state.films}
+                                        />
+                                    }
 
-                            </div>
-                            <div className="col-md-12 mb-4">
-                                {this.state.vehicles.length === 0 ? null :
-                                    <ImageCarouselComponent
-                                        title={"Vehicles"}
-                                        items={this.state.vehicles}
-                                    />
-                                }
+                                </div>
+                                <div className="col-md-12 mb-4">
+                                    {this.state.vehicles.length === 0 ? null :
+                                        <ImageCarouselComponent
+                                            title={"Vehicles"}
+                                            items={this.state.vehicles}
+                                        />
+                                    }
 
-                            </div>
-                            <div className="col-md-12">
-                                {this.state.starships.length === 0 ? null :
-                                    <ImageCarouselComponent
-                                        title={"Starships"}
-                                        items={this.state.starships}
-                                    />
-                                }
+                                </div>
+                                <div className="col-md-12">
+                                    {this.state.starships.length === 0 ? null :
+                                        <ImageCarouselComponent
+                                            title={"Starships"}
+                                            items={this.state.starships}
+                                        />
+                                    }
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="col-md-4">
-                        <div className="well">
-                            <div className="row">
-                                <div className="col s12 m7">
-                                    <CharacterProfileCard character={this.state.character}/>
+                        <div className="col-md-4">
+                            <div className="well">
+                                <div className="row">
+                                    <div className="col s12 m7">
+                                        <CharacterProfileCard character={this.state.character}/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
+
             </div>
+
         )
     }
 

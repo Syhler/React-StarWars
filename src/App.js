@@ -13,6 +13,7 @@ import StarshipDetailPage from "./Component/Pages/Spaceships/StarshipDetailPage"
 import DefaultPage from "./Component/Common/DefaultPage";
 import VehicleDetailPage from "./Component/Pages/Vehicles/VehicleDetailPage";
 import FilmDetailPage from "./Component/Pages/Films/FilmDetailPage";
+import SpeciesDetailPage from "./Component/Pages/Species/SpeciesDetailPage";
 
 
 class App extends React.Component {
@@ -26,7 +27,9 @@ class App extends React.Component {
                     <div className="container">
                         <Switch>
                             {/*MAIN PAGE*/}
-                            <Route path="/" exact component={mainContent}/>
+                            <Route path="/" exact component={() => {
+                                return <DefaultPage header={"Characters"} type={"people"} route={"character"}/>
+                            }}/>
 
                             {/*CHARACTER*/}
                             <Route path="/character" exact component={() => {
@@ -66,6 +69,8 @@ class App extends React.Component {
                             <Route path="/species" exact component={() =>{
                                 return <DefaultPage header={"Species"} type={"species"} route={"species"}/>
                             }}/>
+                            <Route path="/species/:id" component={SpeciesDetailPage}/>
+
 
                         </Switch>
                     </div>
